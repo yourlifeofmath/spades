@@ -1,5 +1,5 @@
 function GameState() {
-    /* TODO: define GameState class here 
+    /* TODO: define GameState class here */ 
 }
 
 function makeMoveIfValid(gameState, move) {
