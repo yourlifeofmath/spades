@@ -34,18 +34,11 @@
             //     "PLAY_PHASE"
             phaseName: {String},
             
-            /////////////////////////vvv
-            // If BET_PHASE_0
-
             // List of positions of players who decide to blind nil
             blindNils: [{Number}],
-            /////////////////////////^^^
 
             /////////////////////////vvv
             // If BET_PHASE_1
-
-            // List of blind nil positions (carried over from BET_PHASE_0)
-            blindNils: [{Number}],
 
             // List of positions of players who have passed from betting
             passed: [{Number}],
@@ -69,7 +62,7 @@
             // chosen trump suit, must be one of "c", "d", "h", "s"
             trumpSuit: {String},
 
-            // map of player position to bets their bet trick counts
+            // map of player position to their bet trick counts
             bets: {
                 "0": {Number},
                 "1": {Number},
@@ -100,10 +93,13 @@
             // starting suit of current trick, must be one of "c", "d", "h", "s"
             startingSuit: {String}
 
-            // number of tricks taken by each team
-            // tricksTaken[0] = number of tricks taken by Team 0
-            // tricksTaken[1] = number of tricks taken by Team 1
-            tricksTaken: [{Number}]
+            // number of tricks taken by each position
+            tricksTaken: {
+                "0": {Number},
+                "1": {Number},
+                "2": {Number},
+                "3": {Number}
+            }
             /////////////////////////^^^
         }
     }
