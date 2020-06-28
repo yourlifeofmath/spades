@@ -15,6 +15,26 @@ function isValidJson(string) {
 }
 
 /**
+ * Create a canvasButton struct with a label and start/end coordinates
+ * 
+ * @param {String} label Label of canvas button - no duplicate labels within a canvas allowed
+ * @param {Number} x1 
+ * @param {Number} y1 
+ * @param {Number} x2 
+ * @param {Number} y2 
+ * @param {object} args extra info needed for the canvasButton, like hand position
+ */
+function canvasButton(label, x1, y1, x2, y2, args=null){
+    this.label = label
+    this.x1 = x1
+    this.y1 = y1
+    this.x2 = x2
+    this.y2 = y2
+    this.toString = () => `canvasButton: ${label} (${x1},${y1}), (${x2},${y2})`
+    this.args=args
+}
+
+/**
  * 
  * Execute a canvas function, converting relative coordinates to absolute coordinates on the canvas.
  * 
@@ -33,6 +53,8 @@ function isValidJson(string) {
  *  3: arg (no resize), x, y
  *  4: x, y, width, height
  *  5: arg (no resize), x, y, width, height
+ * 
+ * Returns: The given args, resized in absolute coordinates.
  */
 function draw_resize(context, f, xstart, ystart, xend, yend, base_x = 100, base_y = 100, args, resize) {
     if (args.length < 2){
@@ -52,14 +74,19 @@ function draw_resize(context, f, xstart, ystart, xend, yend, base_x = 100, base_
         args[i] = args[i]*factor_x
         args[i+1] = args[i+1]*factor_y
     }
-    args[i] = xstart + args[i]
-    args[i+1] = ystart + args[i+1]
+    args[i] = Math.floor(xstart + args[i])
+    args[i+1] = Math.floor(ystart + args[i+1])
     // If there are >3 args, need to resize 'width' and 'height' parameters
     if (args.length > 3 && resize){
-        args[i+2] = args[i+2]*factor_x
-        args[i+3] = args[i+3]*factor_y
+        args[i+2] = Math.floor(args[i+2]*factor_x)
+        args[i+3] = Math.floor(args[i+3]*factor_y)
     }
     context[f].apply(context, args)
+    if (args.length > 3){
+        args[i+2] += args[i]
+        args[i+3] += args[i+1]
+    }
+    return args
 }
 
 /**
